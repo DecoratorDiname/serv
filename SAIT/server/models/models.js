@@ -1,6 +1,6 @@
-import sequelize from './db.js';
-import {DataTypes, DECIMAL} from 'sequelize';
-import { database } from 'pg/lib/defaults';
+import sequelize from '../db.js';
+import {DataTypes, DECIMAL, or} from 'sequelize';
+// import { database } from 'pg/lib/defaults';
 
 const Client = sequelize.define(
     'clients',
@@ -107,3 +107,17 @@ const Order_Item = sequelize.define(
 
     }
 )
+Client.hasMany(Order)
+Order.belongsTo(Client)
+
+Order.hasMany(Order_Item)
+Order_Item.belongsTo(Order)
+
+Product.hasMany(Order_Item)
+Order_Item.belongsTo(Product)
+
+
+export default 
+{
+Client, Product, Order, Order_Item
+}

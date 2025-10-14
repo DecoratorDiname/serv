@@ -1,6 +1,7 @@
 // require('dotenv').config() - common JS
 import 'dotenv/config' // ES modules
 import sequelize from './db.js'
+import models from './models/models.js'
 // import { Model } from 'sequelize' - ???
 
 // common js
@@ -27,6 +28,7 @@ const start = async() => {
     try{
         app.listen(PORT, () => {console.log(`Сервер работает на порту ${PORT}`)});
         await sequelize.authenticate();
+        await sequelize.sync({alter: true});
         console.log('Успешное подключение к БД');
     }
     catch (error) { console.log('Не удалось подключиться к БД',error);}
@@ -34,3 +36,4 @@ const start = async() => {
 }
 
 start();
+
