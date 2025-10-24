@@ -328,7 +328,7 @@ const addClient = await Client.create({name: 'Reshetov',rating: 3, age: '2006-03
 позволяет добавлять запись в бд
 
 
-
+req.body {'name':'IVAN', 'rating': 4}
 
 
 

@@ -3,6 +3,6 @@ import {getOrderItem} from '../controlers/orderItemsControler.js'
 import {postOrderItem} from '../controlers/orderItemsControler.js'
 
 const orderItemRouter = new Router()
-orderItemRouter.get('/getorderitems', getOrderItem )
-orderItemRouter.post('/postorderitems',postOrderItem)
+orderItemRouter.get('/', getOrderItem )
+orderItemRouter.post('/',postOrderItem)
 export default orderItemRouter

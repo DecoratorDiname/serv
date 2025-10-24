@@ -4,6 +4,6 @@ import {postProducts} from '../controlers/productControler.js'
 
 
 const productRouter = new Router()
-productRouter.get('/getproducts', getProducts )
-productRouter.post('/postproducts',postProducts)
+productRouter.get('/', getProducts )
+productRouter.post('/',postProducts)
 export default productRouter

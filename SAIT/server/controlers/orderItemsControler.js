@@ -4,7 +4,7 @@ const {Order_Item} = models
 
 
 
-export const getOrderItem = async(reg,res) =>
+export const getOrderItem = async(req,res,next) =>
 {
     try 
     {
@@ -14,12 +14,10 @@ export const getOrderItem = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }
-export const postOrderItem = async(reg,res) =>
+export const postOrderItem = async(req,res,next) =>
 {
     try 
     {
@@ -29,8 +27,6 @@ export const postOrderItem = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }

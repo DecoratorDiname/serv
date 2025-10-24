@@ -32,7 +32,7 @@ const Client = sequelize.define(
         {
             type:DataTypes.STRING,
             allowNull: false,
-            defaulValue:'user'
+            defaultValue:'user',
         }
 
     }

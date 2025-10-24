@@ -1,7 +1,7 @@
 import models from '../models/models.js'
 const {Order} = models
 
-export const getOrders = async(reg,res) =>
+export const getOrders = async(req,res,next) =>
 {
     try 
     {
@@ -11,13 +11,11 @@ export const getOrders = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }
 
-export const postOrders = async(reg,res) =>
+export const postOrders = async(req,res,next) =>
 {
     try 
     {
@@ -27,8 +25,6 @@ export const postOrders = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }

@@ -19,10 +19,9 @@ import 'dotenv/config'; // ES modules
 import sequelize from './db.js'
 import models from './models/models.js'
 import express from 'express'
-import { Sequelize } from 'sequelize'
 import cors from 'cors'
 import router from './routes/router.js'
-
+import errorHandler from './middleware/errorHandler.js'
 
 
 const app = express();
@@ -31,6 +30,7 @@ const PORT = process.env.PORT;
 app.use(cors())
 app.use(express.json())
 app.use('/api',router)
+app.use(errorHandler)
 // app.get('/',(req,res)=>
 //     {
 //         res.status(200).json(

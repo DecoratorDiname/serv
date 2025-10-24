@@ -4,7 +4,7 @@ const {Product} = models
 
 
 
-export const getProducts = async(reg,res) =>
+export const getProducts = async(req,res,next) =>
 {
     try 
     {
@@ -14,12 +14,10 @@ export const getProducts = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }
-export const postProducts = async(reg,res) =>
+export const postProducts = async(req,res,next) =>
 {
     try 
     {
@@ -29,8 +27,6 @@ export const postProducts = async(reg,res) =>
     }
     catch(error)
     {
-        res.status(500).json({
-            message: 'Ошибка при получении данных'
-        })
+        next(err)
     }
 }
