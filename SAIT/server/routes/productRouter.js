@@ -1,9 +1,10 @@
 import {Router} from 'express'
-import {getProducts} from '../controlers/productControler.js'
-import {postProducts} from '../controlers/productControler.js'
+import {getProducts, updateProduct, postProducts} from '../controlers/productControler.js'
+
 
 
 const productRouter = new Router()
 productRouter.get('/', getProducts )
 productRouter.post('/',postProducts)
+productRouter.put('/:id',updateProduct)
 export default productRouter

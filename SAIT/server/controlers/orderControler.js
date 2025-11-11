@@ -28,3 +28,21 @@ export const postOrders = async(req,res,next) =>
         next(err)
     }
 }
+
+export const updateStatusOrder = async(req,res,next) =>
+{
+    try
+    {
+        const {id} = req.params;
+        const {status} = req.body
+        const order = await Order.findByPk(id)
+        if(!order) return res.status(404).json({message:'Not found'});
+        order.status = status
+        await order.save()
+        res.json(order)
+    }
+    catch(error)
+    {
+        next(err)
+    }
+}

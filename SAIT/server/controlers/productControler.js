@@ -30,3 +30,19 @@ export const postProducts = async(req,res,next) =>
         next(err)
     }
 }
+
+export const updateProduct = async(req,res,next) =>
+{
+    try
+    {
+        const {id} = req.params;
+        const [updated] = await Product.update(req.body,{where:{id}});
+        if(!updated) return res.status(404).json({message:'Not found'});
+        const product = await Product.findByPk(id)
+        res.json(product)
+    }
+    catch(error)
+    {
+        next(err)
+    }
+}

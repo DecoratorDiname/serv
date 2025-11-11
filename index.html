@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления магазином</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tab {
+            padding: 20px 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            border-bottom: 3px solid #3498db;
+            color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .product-price {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .clients-list, .orders-list {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .client-card, .order-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .client-info, .order-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+.client-details h3, .order-details h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .client-details p, .order-details p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .client-phone, .order-status {
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .order-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #e3f2fd;
+        }
+
+        .status-completed {
+            background: #e8f5e8;
+            color: #27ae60;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #f39c12;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 15px;
+                text-align: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .client-info, .order-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ Магазин электроники</h1>
+            <p>Панель управления товарами, клиентами и заказами</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="products">📦 Товары</div>
+            <div class="tab" data-tab="clients">👥 Клиенты</div>
+            <div class="tab" data-tab="orders">📋 Заказы</div>
+        </div>
+
+        <div class="tab-content active" id="products">
+            <h2 class="section-title">Наши товары</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Товары будут добавлены через JavaScript -->
+            </div>
+        </div>
+
+        <div class="tab-content" id="clients">
+            <h2 class="section-title">Наши клиенты</h2>
+            <div class="clients-list" id="clientsList">
+                <!-- Клиенты будут добавлены через JavaScript -->
+            </div>
+        </div>
+
+        <div class="tab-content" id="orders">
+            <h2 class="section-title">Заказы</h2>
+            <div class="orders-list" id="ordersList">
+                <!-- Заказы будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные товаров
+        const products = [
+            { id: 1, name: "Смартфон iPhone 15", price: 89990, emoji: "📱" },
+            { id: 2, name: "Ноутбук MacBook Pro", price: 149990, emoji: "💻" },
+            { id: 3, name: "Наушники AirPods", price: 19990, emoji: "🎧" },
+            { id: 4, name: "Умные часы Apple Watch", price: 29990, emoji: "⌚" },
+            { id: 5, name: "Планшет iPad Air", price: 59990, emoji: "📱" },
+            { id: 6, name: "Камера Sony A7", price: 129990, emoji: "📷" },
+            { id: 7, name: "Игровая консоль PS5", price: 49990, emoji: "🎮" },
+            { id: 8, name: "Колонка JBL", price: 8990, emoji: "🔊" }
+        ];
+
+        // Данные клиентов
+        const clients = [
+            { id: 1, name: "Иванов Алексей Петрович", phone: "+7 (912) 345-67-89" },
+            { id: 2, name: "Петрова Мария Сергеевна", phone: "+7 (923) 456-78-90" },
+            { id: 3, name: "Сидоров Дмитрий Иванович", phone: "+7 (934) 567-89-01" },
+            { id: 4, name: "Кузнецова Анна Викторовна", phone: "+7 (945) 678-90-12" },
+            { id: 5, name: "Смирнов Павел Олегович", phone: "+7 (956) 789-01-23" }
+        ];
+// Данные заказов
+        const orders = [
+            { id: 1, clientId: 1, products: [1, 3], total: 109980, status: "completed" },
+            { id: 2, clientId: 2, products: [2, 4], total: 179980, status: "pending" },
+            { id: 3, clientId: 3, products: [5, 6, 8], total: 218970, status: "completed" },
+            { id: 4, clientId: 4, products: [7], total: 49990, status: "pending" },
+            { id: 5, clientId: 5, products: [1, 2, 3], total: 259970, status: "completed" }
+        ];
+
+        // Функция для форматирования цены
+        function formatPrice(price) {
+            return new Intl.NumberFormat('ru-RU', {
+                style: 'currency',
+                currency: 'RUB',
+                minimumFractionDigits: 0
+            }).format(price);
+        }
+
+        // Функция для отображения товаров
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `<div class="product-image">${product.emoji}</div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                    </div>
+                `;
+                
+                productCard.addEventListener('click', () => {
+                    alert(`Вы выбрали: ${product.name}\nЦена: ${formatPrice(product.price)}`);
+                });
+                
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Функция для отображения клиентов
+        function renderClients() {
+            const clientsList = document.getElementById('clientsList');
+            clientsList.innerHTML = '';
+
+            clients.forEach(client => {
+                const clientCard = document.createElement('div');
+                clientCard.className = 'client-card';
+                clientCard.innerHTML = `
+                    <div class="client-info">
+                        <div class="client-details">
+                            <h3>${client.name}</h3>
+                            <p class="client-phone">${client.phone}</p>
+                        </div>
+                    </div>
+                `;
+                clientsList.appendChild(clientCard);
+            });
+        }
+
+        // Функция для отображения заказов
+        function renderOrders() {
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = '';
+
+            orders.forEach(order => {
+                const client = clients.find(c => c.id === order.clientId);
+                const orderProducts = order.products.map(pId => 
+                    products.find(p => p.id === pId)
+                );
+
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                orderCard.innerHTML = ` 
+                    <div class="order-info">
+                        <div class="order-details">
+                            <h3>Заказ #${order.id}</h3>
+                            <p><strong>Клиент:</strong> ${client.name}</p>
+                            <p><strong>Товары:</strong> ${orderProducts.map(p => p.name).join(', ')}</p>
+                            <p><strong>Общая сумма:</strong> ${formatPrice(order.total)}</p>
+                        </div>
+                        <div class="order-status ${order.status === 'completed' ? 'status-completed' : 'status-pending'}">
+                            ${order.status === 'completed' ? '✅ Выполнен' : '⏳ В обработке'}
+                        </div>
+                    </div>
+                ` ;
+                ordersList.appendChild(orderCard);
+            });
+        }
+// Функция для переключения вкладок
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.getAttribute('data-tab');
+                    
+                    // Убираем активный класс у всех вкладок и контента
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей вкладке и контенту
+                    tab.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            initTabs();
+            renderProducts();
+            renderClients();
+            renderOrders();
+        });
+    </script>
+</body>
