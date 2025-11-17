@@ -5,4 +5,5 @@ const orderRouter = new Router()
 orderRouter.get('/',getOrders)
 orderRouter.post('/',postOrders)
 orderRouter.patch('/:id',updateStatusOrder)
+orderRouter.delete('/id', orderRouter)
 export default orderRouter
