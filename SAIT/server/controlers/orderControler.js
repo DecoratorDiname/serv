@@ -46,3 +46,15 @@ export const updateStatusOrder = async(req,res,next) =>
         next(err)
     }
 }
+export const deleteOrder = async(req,res,next) => {
+    try{
+        const {id} = req.params;
+    
+        const delOrder = await Order.destroy({where: {id}})
+
+        res.status(200).json({message: 'запись удалена'})
+    }
+    catch(err){
+        next(err)
+    };
+}
